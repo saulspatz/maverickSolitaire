@@ -2,16 +2,16 @@ from tkinter import *
 import os
 #import Image, ImageTk    # PIL
 os.chdir('graphics')
-cardHeight = 96
-deltaX = 18
+cardHeight = 115
+deltaX = 21
 imageDict = {}   # hang on to images, or they may disappear!
 
 unPatColor = '#b8b8b8'
 patColor= '#d0ca1e'
-resetCoords = (100, 540)
-dealCoords = (700, 540)
-showCoords = (700, 540)
-textCoords = (400, 160)
+resetCoords = (100, 690)
+dealCoords =  (700, 690)
+showCoords =  (700, 690)
+textCoords =  (400, 190)
 
 suitStr = ('club', 'diamond', 'heart', 'spade')
 rankStr = ('2', '3', '4', '5', '6', '7', '8','9', '10',
@@ -27,20 +27,20 @@ class View(Canvas):
         self.draw()
 
     def draw(self):
-        self.create_rectangle( 10,  20,  320, 120, width = 2,
+        self.create_rectangle( 10,  20,  340, 145, width = 2,
                                outline = unPatColor, tags= ['rect0', 'rect'])
-        self.create_rectangle(480,  20,  790, 120, width = 2,
+        self.create_rectangle(480,  20,  810, 145, width = 2,
                               outline = unPatColor, tags= ['rect1', 'rect'])
-        self.create_rectangle( 10, 200,  320, 300, width = 2,
+        self.create_rectangle( 10, 225,  340, 350, width = 2,
                                outline = unPatColor, tags= ['rect4', 'rect'])
-        self.create_rectangle(480, 200,  790, 300, width = 2,
+        self.create_rectangle(480, 225,  810, 350, width = 2,
                               outline = unPatColor, tags= ['rect5', 'rect'])
-        self.create_rectangle( 10, 380,  320, 480, width = 2,
+        self.create_rectangle( 10, 430,  340, 555, width = 2,
                                outline = unPatColor, tags= ['rect2', 'rect'])
-        self.create_rectangle(480, 380,  790, 480, width = 2,
+        self.create_rectangle(480, 430,  810, 555, width = 2,
                               outline = unPatColor, tags= ['rect3', 'rect'])
 
-        self.create_text(400, 540, text ="Make Five Pat Poker Hands",
+        self.create_text(400, 620, text ="Make Five Pat Poker Hands",
                          fill = unPatColor,font=("Times", "24", "bold"))
         self.create_text(*textCoords, text ="You Win!", fill = self.cget('bg'),
                          font=("Times", "24", "bold"), tag = 'winText')
@@ -62,14 +62,14 @@ class View(Canvas):
 
         for card in range(52):
             foto = PhotoImage(file =
-                    suitStr[card % 4] + rankStr[card // 4] + '.gif')
+                    suitStr[card % 4] + rankStr[card // 4] + '.png')
             imageDict[card] = foto
             self.create_image(-200, -200, image = foto, anchor = NW,
                           tag = ['card', 'order%d' % card])
-        imageDict['back'] = PhotoImage(file='blueBackVert.gif')
-        imageDict['dealButton'] = PhotoImage(file='dealButton.gif')
-        imageDict['showMeButton'] = PhotoImage(file='showMeButton.gif')
-        imageDict['resetButton'] = PhotoImage(file='resetButton.gif')
+        imageDict['back'] = PhotoImage(file='blueBack.png')
+        imageDict['dealButton'] = PhotoImage(file='dealButton.png')
+        imageDict['showMeButton'] = PhotoImage(file='showMeButton.png')
+        imageDict['resetButton'] = PhotoImage(file='resetButton.png')
 
     def displayHand(self, hand):
         model = self.model
