@@ -62,6 +62,7 @@ class Control(object):
             newHand = self.oldHand
         else:
             newHand  = overlaps[0]
+            view.enableShow()
 
         model.addCard(newHand, self.floater)
         del(self.floater)

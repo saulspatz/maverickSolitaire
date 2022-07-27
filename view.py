@@ -1,57 +1,59 @@
 from tkinter import *
 import os
-#import Image, ImageTk    # PIL
+# import Image, ImageTk    # PIL
 os.chdir('graphics')
 cardHeight = 115
 deltaX = 21
 imageDict = {}   # hang on to images, or they may disappear!
 
 unPatColor = '#b8b8b8'
-patColor= '#d0ca1e'
+patColor = '#d0ca1e'
 resetCoords = (100, 690)
-dealCoords =  (700, 690)
-showCoords =  (700, 690)
-textCoords =  (400, 190)
+dealCoords = (700, 690)
+showCoords = (700, 690)
+textCoords = (400, 190)
 
 suitStr = ('club', 'diamond', 'heart', 'spade')
-rankStr = ('2', '3', '4', '5', '6', '7', '8','9', '10',
-            'Jack', 'Queen', 'King','Ace')
+rankStr = ('2', '3', '4', '5', '6', '7', '8', '9', '10',
+           'Jack', 'Queen', 'King', 'Ace')
+
+
 class View(Canvas):
     def __init__(self, parent, win, height, width, bg, cursor):
-        Canvas.__init__(self, win, height=height, width = width,
+        Canvas.__init__(self, win, height=height, width=width,
                         bg=bg, cursor=cursor, relief='flat', borderwidth=0)
         self.model = parent.model
         self.control = parent.control
-        self.pack(side=TOP, expand = YES, fill = BOTH)
+        self.pack(side=TOP, expand=YES, fill=BOTH)
         self.loadImages()                              # load all card images
         self.draw()
 
     def draw(self):
-        self.create_rectangle( 10,  20,  340, 145, width = 2,
-                               outline = unPatColor, tags= ['rect0', 'rect'])
-        self.create_rectangle(480,  20,  810, 145, width = 2,
-                              outline = unPatColor, tags= ['rect1', 'rect'])
-        self.create_rectangle( 10, 225,  340, 350, width = 2,
-                               outline = unPatColor, tags= ['rect4', 'rect'])
-        self.create_rectangle(480, 225,  810, 350, width = 2,
-                              outline = unPatColor, tags= ['rect5', 'rect'])
-        self.create_rectangle( 10, 430,  340, 555, width = 2,
-                               outline = unPatColor, tags= ['rect2', 'rect'])
-        self.create_rectangle(480, 430,  810, 555, width = 2,
-                              outline = unPatColor, tags= ['rect3', 'rect'])
+        self.create_rectangle(10,  20,  340, 145, width=2,
+                              outline=unPatColor, tags=['rect0', 'rect'])
+        self.create_rectangle(480,  20,  810, 145, width=2,
+                              outline=unPatColor, tags=['rect1', 'rect'])
+        self.create_rectangle(10, 225,  340, 350, width=2,
+                              outline=unPatColor, tags=['rect4', 'rect'])
+        self.create_rectangle(480, 225,  810, 350, width=2,
+                              outline=unPatColor, tags=['rect5', 'rect'])
+        self.create_rectangle(10, 430,  340, 555, width=2,
+                              outline=unPatColor, tags=['rect2', 'rect'])
+        self.create_rectangle(480, 430,  810, 555, width=2,
+                              outline=unPatColor, tags=['rect3', 'rect'])
 
-        self.create_text(400, 620, text ="Make Five Pat Poker Hands",
-                         fill = unPatColor,font=("Times", "24", "bold"))
-        self.create_text(*textCoords, text ="You Win!", fill = self.cget('bg'),
-                         font=("Times", "24", "bold"), tag = 'winText')
-        self.create_text(*textCoords, text ="No Solution", fill = self.cget('bg'),
-                                 font=("Times", "24", "bold"), tag = 'noneText')
+        self.create_text(400, 620, text="Make Five Pat Poker Hands",
+                         fill=unPatColor, font=("Times", "24", "bold"))
+        self.create_text(*textCoords, text="You Win!", fill=self.cget('bg'),
+                         font=("Times", "24", "bold"), tag='winText')
+        self.create_text(*textCoords, text="No Solution", fill=self.cget('bg'),
+                         font=("Times", "24", "bold"), tag='noneText')
         self.create_image(-200, -200, image=imageDict['showMeButton'],
                           tag='showMeButton')
         self.create_image(-200, -200, image=imageDict['dealButton'],
                           tag='dealButton')
         self.create_image(-200, -200, image=imageDict['resetButton'],
-                          tag = 'resetButton')
+                          tag='resetButton')
         self.enableDeal()
         control = self.control
         self.tag_bind('dealButton', '<ButtonRelease-1>', control.deal)
@@ -61,11 +63,11 @@ class View(Canvas):
     def loadImages(self):
 
         for card in range(52):
-            foto = PhotoImage(file =
-                    suitStr[card % 4] + rankStr[card // 4] + '.png')
+            foto = PhotoImage(file=suitStr[card %
+                              4] + rankStr[card // 4] + '.png')
             imageDict[card] = foto
-            self.create_image(-200, -200, image = foto, anchor = NW,
-                          tag = ['card', 'order%d' % card])
+            self.create_image(-200, -200, image=foto, anchor=NW,
+                              tag=['card', 'order%d' % card])
         imageDict['back'] = PhotoImage(file='blueBack.png')
         imageDict['dealButton'] = PhotoImage(file='dealButton.png')
         imageDict['showMeButton'] = PhotoImage(file='showMeButton.png')
@@ -97,7 +99,7 @@ class View(Canvas):
         self.spreadHands()
         self.itemconfigure('rect', outline=unPatColor)
         self.lift('winText')
-        self.itemconfigure('winText', fill = 'yellow')
+        self.itemconfigure('winText', fill='yellow')
         self.enableDeal()
 
     def spreadHands(self):
@@ -127,62 +129,62 @@ class View(Canvas):
 
     def deal(self):
         for card in self.find_withtag('card'):
-            self.coords(card,-200,-200)
-        self.itemconfigure('winText', fill = self.cget('bg'))
-        self.itemconfigure('noneText', fill = self.cget('bg'))
+            self.coords(card, -200, -200)
+        self.itemconfigure('winText', fill=self.cget('bg'))
+        self.itemconfigure('noneText', fill=self.cget('bg'))
         self.displayHands()
         self.enableClicks()
-        self.enableShow()
+        #self.enableShow()
         self.enableReset()
         self.disableDeal()
 
-    #def deal(self, sample):
-            ##self.delete('card')
-            #for card in self.find_withtag('card'):
-                #self.coords(card,-200,-200)
-            #self.itemconfigure('winText', fill = self.cget('bg'))
-            #self.itemconfigure('noneText', fill = self.cget('bg'))
-            #self.disableReset()
-            #for k in range(6):
-                #self.itemconfigure('rect%d' % k, outline = unPatColor)
-            #x0, y0 = 400, 300
-            #west, east, north, south = 100, 700, 60, 430
-            #goal = [ (west, north), (east, north), (west, south), (east, south) ]
+    # def deal(self, sample):
+        # self.delete('card')
+        # for card in self.find_withtag('card'):
+        # self.coords(card,-200,-200)
+        #self.itemconfigure('winText', fill = self.cget('bg'))
+        #self.itemconfigure('noneText', fill = self.cget('bg'))
+        # self.disableReset()
+        # for k in range(6):
+        #self.itemconfigure('rect%d' % k, outline = unPatColor)
+        #x0, y0 = 400, 300
+        #west, east, north, south = 100, 700, 60, 430
+        #goal = [ (west, north), (east, north), (west, south), (east, south) ]
 
-            #script = []
-            #for item in sample:
-                #x1, y1 = goal[item % 4]
-                #dx = ( x1 - x0 ) // deltaX
-                #dy = ( y1 - y0 ) // deltaX
-                #ident = self.create_image(x0, y0, image = imageDict['back'])
-                #script.append( (dx, dy, ident, item, 8) )
-            #self.playScript(script)
+        #script = []
+        # for item in sample:
+        #x1, y1 = goal[item % 4]
+        #dx = ( x1 - x0 ) // deltaX
+        #dy = ( y1 - y0 ) // deltaX
+        #ident = self.create_image(x0, y0, image = imageDict['back'])
+        #script.append( (dx, dy, ident, item, 8) )
+        # self.playScript(script)
 
-    #def playScript(self, script):
-        #if not script:
-            #self.showPats(self.model.patHands())
-            #self.after(400, self.enableClicks)
-        #else:
-            #self.dealBack( script[0] )
-            #self.after( 250, self.playScript, script[1:] )
+    # def playScript(self, script):
+        # if not script:
+        # self.showPats(self.model.patHands())
+        #self.after(400, self.enableClicks)
+        # else:
+        #self.dealBack( script[0] )
+        #self.after( 250, self.playScript, script[1:] )
 
-    #def dealBack(self, script):
+    # def dealBack(self, script):
 
-        ## play the animation script for dealing a card
+        # play the animation script for dealing a card
 
         #dx, dy, item, card, n = script
-        #if n == 0:
-            #self.delete(item)
-            #hand = card % 4
-            #num = len(self.model.getCards(hand))
-            #x0, y0, x1, y1 = self.bbox('rect%s' % hand)
-            #x = x0 + 1 +  num*deltaX + deltaX // 2
-            #y = y0 + (y1 - y0 - cardHeight) // 2
-            #orderTag = 'order%d' % card
-            #self.model.addCard(hand, card)
-            #self.displayHand(hand)
-        #else:
-            #self.move(item, dx, dy)
+        # if n == 0:
+        # self.delete(item)
+        #hand = card % 4
+        #num = len(self.model.getCards(hand))
+        #x0, y0, x1, y1 = self.bbox('rect%s' % hand)
+        #x = x0 + 1 +  num*deltaX + deltaX // 2
+        #y = y0 + (y1 - y0 - cardHeight) // 2
+        #orderTag = 'order%d' % card
+        #self.model.addCard(hand, card)
+        # self.displayHand(hand)
+        # else:
+        #self.move(item, dx, dy)
         #self.after(25, self.dealBack, script[:-1]+(n-1,))
 
     def disableDeal(self):
@@ -221,15 +223,15 @@ class View(Canvas):
 
     def noSolution(self):
         self.lift('noneText')
-        self.itemconfigure('noneText', fill = 'red')
+        self.itemconfigure('noneText', fill='red')
 
     def enableClicks(self):
         control = self.control
         self.tag_bind('card', '<Button-1>', control.onClick)
         self.tag_bind('card', '<ButtonRelease-1>', control.onRelease)
         self.tag_bind('card', '<B1-Motion>', control.onDrag)
-        self.enableShow()
-        self.enableReset()
+        #self.enableShow()
+        #self.enableReset()
 
     def disableClicks(self):
         self.disableShow()
@@ -242,17 +244,17 @@ class View(Canvas):
         for k in range(6):
             rect = 'rect'+str(k)
             if k in pats:
-                self.itemconfigure(rect, outline = patColor)
+                self.itemconfigure(rect, outline=patColor)
             else:
-                self.itemconfigure(rect, outline = unPatColor)
+                self.itemconfigure(rect, outline=unPatColor)
 
     def deleteImages(self):
         for image in imageDict.values():
             image.__del__()
 
     def reset(self):
-        self.itemconfigure('winText', fill = self.cget('bg'))
-        self.itemconfigure('noneText', fill = self.cget('bg'))
+        self.itemconfigure('winText', fill=self.cget('bg'))
+        self.itemconfigure('noneText', fill=self.cget('bg'))
         self.displayHands()
         self.enableClicks()
         self.disableDeal()
@@ -266,5 +268,3 @@ class View(Canvas):
 
     def getResetCoords(self):
         return self.bbox('resetButton')
-
-
