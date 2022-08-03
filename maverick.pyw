@@ -6,7 +6,7 @@ from view import View
 # Maverick solitarire, using MVC pattern.
 
 class Maverick(object):
-    def __init__(self, win, height = 780, width = 820, cursor = 'hand2',
+    def __init__(self, win, height = 780, width = 840, cursor = 'hand2',
                  bg = '#166316'):
         self.win = win
         self.win.title('Maverick Solitaire')

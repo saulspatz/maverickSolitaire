@@ -29,17 +29,17 @@ class View(Canvas):
         self.draw()
 
     def draw(self):
-        self.create_rectangle(10,  20,  340, 145, width=2,
+        self.create_rectangle(10,  20,  350, 145, width=2,
                               outline=unPatColor, tags=['rect0', 'rect'])
-        self.create_rectangle(480,  20,  810, 145, width=2,
+        self.create_rectangle(490,  20,  830, 145, width=2,
                               outline=unPatColor, tags=['rect1', 'rect'])
-        self.create_rectangle(10, 225,  340, 350, width=2,
+        self.create_rectangle(10, 225,  350, 350, width=2,
                               outline=unPatColor, tags=['rect4', 'rect'])
-        self.create_rectangle(480, 225,  810, 350, width=2,
+        self.create_rectangle(490, 225,  830, 350, width=2,
                               outline=unPatColor, tags=['rect5', 'rect'])
-        self.create_rectangle(10, 430,  340, 555, width=2,
+        self.create_rectangle(10, 430,  350, 555, width=2,
                               outline=unPatColor, tags=['rect2', 'rect'])
-        self.create_rectangle(480, 430,  810, 555, width=2,
+        self.create_rectangle(490, 430,  830, 555, width=2,
                               outline=unPatColor, tags=['rect3', 'rect'])
 
         self.create_text(400, 620, text="Make Five Pat Poker Hands",
