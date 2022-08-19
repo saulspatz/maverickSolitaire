@@ -12,6 +12,7 @@ resetCoords = (100, 690)
 dealCoords = (700, 690)
 showCoords = (700, 690)
 textCoords = (400, 190)
+settingsCoords = (400, 690)
 
 suitStr = ('club', 'diamond', 'heart', 'spade')
 rankStr = ('2', '3', '4', '5', '6', '7', '8', '9', '10',
@@ -54,6 +55,8 @@ class View(Canvas):
                           tag='dealButton')
         self.create_image(-200, -200, image=imageDict['resetButton'],
                           tag='resetButton')
+        self.create_image(-200, -200, image=imageDict['settingsButton'],    
+                          tag='settingsButton')
         self.enableDeal()
         control = self.control
         self.tag_bind('dealButton', '<ButtonRelease-1>', control.deal)
@@ -72,6 +75,7 @@ class View(Canvas):
         imageDict['dealButton'] = PhotoImage(file='dealButton.png')
         imageDict['showMeButton'] = PhotoImage(file='showMeButton.png')
         imageDict['resetButton'] = PhotoImage(file='resetButton.png')
+        imageDict['settingsButton'] = PhotoImage(file='gear.png')
 
     def displayHand(self, hand):
         model = self.model
@@ -189,15 +193,17 @@ class View(Canvas):
 
     def disableDeal(self):
 
-        # move deal button off canvas
+        # move deal button and settings button off canvas
 
         self.coords('dealButton', -200, -200)
+        self.coords('settingsButton', -200, -200)
 
     def enableDeal(self):
 
-        # move deal button back on canvas
+        # move deal button and settings buttons back on canvas
 
         self.coords('dealButton', *dealCoords)
+        self.coords('settingsButton', *settingsCoords)
 
     def disableShow(self):
 
