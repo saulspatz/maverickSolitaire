@@ -1,6 +1,8 @@
 from tkinter import *
+from tkinter import simpledialog
+from tkinter import messagebox
 import os
-# import Image, ImageTk    # PIL
+
 os.chdir('graphics')
 cardHeight = 115
 deltaX = 21
@@ -55,13 +57,14 @@ class View(Canvas):
                           tag='dealButton')
         self.create_image(-200, -200, image=imageDict['resetButton'],
                           tag='resetButton')
-        self.create_image(-200, -200, image=imageDict['settingsButton'],    
+        self.create_image(-200, -200, image=imageDict['settingsButton'],
                           tag='settingsButton')
         self.enableDeal()
         control = self.control
         self.tag_bind('dealButton', '<ButtonRelease-1>', control.deal)
         self.tag_bind('showMeButton', '<ButtonRelease-1>', control.show)
         self.tag_bind('resetButton', '<ButtonRelease-1>', control.reset)
+        self.tag_bind('settingsButton', '<ButtonRelease-1>', self.settings)
 
     def loadImages(self):
 
@@ -138,7 +141,7 @@ class View(Canvas):
         self.itemconfigure('noneText', fill=self.cget('bg'))
         self.displayHands()
         self.enableClicks()
-        #self.enableShow()
+        # self.enableShow()
         self.enableReset()
         self.disableDeal()
 
@@ -236,8 +239,8 @@ class View(Canvas):
         self.tag_bind('card', '<Button-1>', control.onClick)
         self.tag_bind('card', '<ButtonRelease-1>', control.onRelease)
         self.tag_bind('card', '<B1-Motion>', control.onDrag)
-        #self.enableShow()
-        #self.enableReset()
+        # self.enableShow()
+        # self.enableReset()
 
     def disableClicks(self):
         self.disableShow()
@@ -274,3 +277,29 @@ class View(Canvas):
 
     def getResetCoords(self):
         return self.bbox('resetButton')
+
+    def settings(self, event):
+        model = self.model
+        dist = simpledialog.askstring("Distribution", "S H D C or blank for random")
+        if dist == None:  # user pressed cancel
+            return 
+        if dist == '':
+            model.distribution = None
+        else:
+            s = dist.translate({ord(','):ord(' ')}).split()
+            if not all(x.isdigit() for x in s):
+                messagebox.showerror("No Change", 
+                                    f'Could nor parse {s}')
+                return
+            i = [int(x) for x in s]
+            if sum(i) != 25:
+                messagebox.showerror("No Change", 
+                                    f'Distribution has {sum(i)} cards')
+                return
+            i += (4-len(i)) * [0]
+            model.distribution = i
+            
+
+        
+
+

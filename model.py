@@ -1,4 +1,4 @@
-import random
+from random import sample
 
 
 ranks = (DEUCE, TREY, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK,
@@ -84,10 +84,19 @@ class Model(object):
         self.hands = []
         for k in range(6):
             self.hands.append(Hand())
+        self.distribution = None
 
     def deal(self):
         self.clear()
-        self.sample =  random.sample(range(52), 25)
+        dist = self.distribution
+        ranks = range(13)
+        if not dist:
+            self.sample =  sample(range(52), 25)
+        else:
+            self.sample =  [4*c for c in sample(ranks, dist[0])]
+            self.sample +=  [4*c+1 for c in sample(ranks, dist[1])]
+            self.sample +=  [4*c+2 for c in sample(ranks, dist[2])]
+            self.sample +=  [4*c+3 for c in sample(ranks, dist[3])]
         self.reset()
         return self.sample
 
@@ -133,5 +142,5 @@ class Model(object):
 
     def reset(self):
         self.clear()
-        for suit in range(5):
+        for suit in range(4):
             self.setHand(suit, [c for c in self.sample if c % 4 == suit])
