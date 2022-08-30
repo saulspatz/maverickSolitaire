@@ -16,6 +16,11 @@ class CanvasTooltip:
     Alberto Vassena on 2016.12.10.
     '''
 
+    '''
+    I changed this a little.  Removed ttk and added configure method.
+    Spatz 29 August 2022
+    '''
+
     def __init__(self, canvas, tag_or_id,
                  *,
                  bg='#FFFFEA',

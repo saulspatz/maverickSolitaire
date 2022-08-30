@@ -60,13 +60,16 @@ class View(Canvas):
                           tag='resetButton')
         self.create_image(-200, -200, image=imageDict['settingsButton'],
                           tag='settingsButton')
+        self.create_image(-200, -200, image=imageDict['infoButton'],
+                          tag='infoButton')
         self.enableDeal()
         control = self.control
         self.tag_bind('dealButton', '<ButtonRelease-1>', control.deal)
         self.tag_bind('showMeButton', '<ButtonRelease-1>', control.show)
         self.tag_bind('resetButton', '<ButtonRelease-1>', control.reset)
         self.tag_bind('settingsButton', '<ButtonRelease-1>', self.settings)
-        self.tooltip = CanvasTooltip(self, 'settingsButton', text='Random Deal')
+        self.distributionTip = CanvasTooltip(self, 'settingsButton', text='Random Deal')
+        self.dealTip = CanvasTooltip(self, 'infoButton', text='')
 
     def loadImages(self):
 
@@ -81,6 +84,7 @@ class View(Canvas):
         imageDict['showMeButton'] = PhotoImage(file='showMeButton.png')
         imageDict['resetButton'] = PhotoImage(file='resetButton.png')
         imageDict['settingsButton'] = PhotoImage(file='gear.png')
+        imageDict['infoButton'] = PhotoImage(file='info.png')
 
     def displayHand(self, hand):
         model = self.model
@@ -141,9 +145,15 @@ class View(Canvas):
             self.coords(card, -200, -200)
         self.itemconfigure('winText', fill=self.cget('bg'))
         self.itemconfigure('noneText', fill=self.cget('bg'))
+        model = self.model       
+        lens = [len(h) for h in model.hands[:4]]
+        tip = f'{lens[0]}-{lens[1]}-{lens[2]}-{lens[3]}'
+
+        self.dealTip.configure(text=tip)
         self.displayHands()
         self.enableClicks()
         # self.enableShow()
+        
         self.enableReset()
         self.disableDeal()
 
@@ -199,16 +209,20 @@ class View(Canvas):
     def disableDeal(self):
 
         # move deal button and settings button off canvas
+        # move the info button on
 
         self.coords('dealButton', -200, -200)
         self.coords('settingsButton', -200, -200)
+        self.coords('infoButton', *settingsCoords)
 
     def enableDeal(self):
 
         # move deal button and settings buttons back on canvas
+        # move the info button off
 
         self.coords('dealButton', *dealCoords)
         self.coords('settingsButton', *settingsCoords)
+        self.coords('infoButton', -200, -200)
 
     def disableShow(self):
 
@@ -303,7 +317,7 @@ class View(Canvas):
             i += (4-len(i)) * [0]
             model.distribution = i
             tip = f'{i[0]}-{i[1]}-{i[2]}-{i[3]} Deals'
-            self.tooltip.configure(text=tip)
+            self.distributionTip.configure(text=tip)
 
         
             
