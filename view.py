@@ -17,7 +17,7 @@ showCoords = (700, 690)
 textCoords = (400, 190)
 settingsCoords = (400, 690)
 
-suitStr = ('club', 'diamond', 'heart', 'spade')
+suitStr = ('spade', 'heart', 'diamond', 'club')
 rankStr = ('2', '3', '4', '5', '6', '7', '8', '9', '10',
            'Jack', 'Queen', 'King', 'Ace')
 
@@ -283,7 +283,7 @@ class View(Canvas):
     def settings(self, event):
         model = self.model
         dist = simpledialog.askstring("Distribution", 
-               "C D H S or blank for random")
+               "S H D C or blank for random")
         if dist == None:  # user pressed cancel
             return 
         if dist == '':
