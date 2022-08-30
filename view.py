@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import simpledialog
 from tkinter import messagebox
+from tip import CanvasTooltip
 import os
 
 os.chdir('graphics')
@@ -65,6 +66,7 @@ class View(Canvas):
         self.tag_bind('showMeButton', '<ButtonRelease-1>', control.show)
         self.tag_bind('resetButton', '<ButtonRelease-1>', control.reset)
         self.tag_bind('settingsButton', '<ButtonRelease-1>', self.settings)
+        self.tooltip = CanvasTooltip(self, 'settingsButton', text='Random Deal')
 
     def loadImages(self):
 
@@ -280,11 +282,13 @@ class View(Canvas):
 
     def settings(self, event):
         model = self.model
-        dist = simpledialog.askstring("Distribution", "S H D C or blank for random")
+        dist = simpledialog.askstring("Distribution", 
+               "C D H S or blank for random")
         if dist == None:  # user pressed cancel
             return 
         if dist == '':
             model.distribution = None
+            tip = 'Random Deal'
         else:
             s = dist.translate({ord(','):ord(' ')}).split()
             if not all(x.isdigit() for x in s):
@@ -298,6 +302,10 @@ class View(Canvas):
                 return
             i += (4-len(i)) * [0]
             model.distribution = i
+            tip = f'{i[0]}-{i[1]}-{i[2]}-{i[3]} Deals'
+            self.tooltip.configure(text=tip)
+
+        
             
 
         
