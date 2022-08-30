@@ -15,9 +15,10 @@ handValues = (BUST, LOWSTRAIGHT, STRAIGHT, FLUSH, FULL) = range(5)
 # If exactly 5, then it is a poker hand.
 
 class Hand(list):
-    def __init__(self):
+    def __init__(self, s=None):
         list.__init__(self)
         self.value = None
+        if s: self.setCards(s)
 
     def numRanks(self):
         return len(set([x // 4 for x in self]))
@@ -25,11 +26,7 @@ class Hand(list):
     def flush(self):
         if len(set([x % 4 for x in self])) != 1:
             return BUST
-        s = self.straight()
-        if not s:
-            return FLUSH
-        if s == LOWSTRAIGHT:
-            return s
+        return FLUSH
 
     def straight(self):
         if self.numRanks() != 5:
@@ -134,8 +131,25 @@ class Model(object):
         solution = [[4*card[0] + card[1] for card in hand]
                     for hand in solution]
         self.clear()
-        for idx, hand in enumerate(solution):
-            self.setHand(idx, hand)
+
+        # Arrange the hands so that, to the extent possible,
+        # flushes are in their original position
+        hands = [Hand(s) for s in solution]
+        flushes =[h for h in hands if h.flush()]
+        others =[h for h in hands if h not in flushes]
+        place = [0,1,2,3]
+        for flush in flushes:
+            suit = flush[0]%4
+            if not self.hands[place[suit]]:
+                self.setHand(place[suit], flush)
+            else:
+                others.append[flush]
+        available = [i for i in range(6) if not self.hands[i]]
+        for hand, index in zip(others, available):
+            self.setHand(index, hand)
+
+        
+        
 
     def patHands(self):
         return [k for k in range(6) if self.hands[k].isPat()]
