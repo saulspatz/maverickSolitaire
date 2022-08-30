@@ -314,6 +314,10 @@ class View(Canvas):
                 messagebox.showerror("No Change", 
                                     f'Distribution has {sum(i)} cards')
                 return
+            if any( 0 > j > 13):
+                messagebox.showerror("No Change", 
+                                    f'Suit length not between 0 and 13')
+
             i += (4-len(i)) * [0]
             model.distribution = i
             tip = f'{i[0]}-{i[1]}-{i[2]}-{i[3]} Deals'
