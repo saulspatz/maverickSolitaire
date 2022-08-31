@@ -314,7 +314,7 @@ class View(Canvas):
                 messagebox.showerror("No Change", 
                                     f'Distribution has {sum(i)} cards')
                 return
-            if any( 0 > j > 13):
+            if any( 0 > j > 13 for j in i):
                 messagebox.showerror("No Change", 
                                     f'Suit length not between 0 and 13')
 
