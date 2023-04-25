@@ -26,11 +26,10 @@ class Hand(list):
     def flush(self):
         # We consider a straight flush as a straight to get the sorting right
 
-        if len(set([x % 4 for x in self])) == 1:
-            value = min(FLUSH, self.straight())
-        else:
-            value = BUST
-        return value
+        haveFlush = True if len(set([x % 4 for x in self])) == 1 else False
+        if value := self.straight() != BUST:
+            return value
+        return FLUSH if haveFlush else BUST
 
     def straight(self):
         if self.numRanks() != 5:
