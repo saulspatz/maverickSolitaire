@@ -24,9 +24,13 @@ class Hand(list):
         return len(set([x // 4 for x in self]))
 
     def flush(self):
-        if len(set([x % 4 for x in self])) != 1:
-            return BUST
-        return FLUSH
+        # We consider a straight flush as a straight to get the sorting right
+
+        if len(set([x % 4 for x in self])) == 1:
+            value = min(FLUSH, self.straight())
+        else:
+            value = BUST
+        return value
 
     def straight(self):
         if self.numRanks() != 5:
