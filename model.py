@@ -146,7 +146,7 @@ class Model(object):
             if not self.hands[place[suit]]:
                 self.setHand(place[suit], flush)
             else:
-                others.append[flush]
+                others.append(flush)
         available = [i for i in range(6) if not self.hands[i]]
         for hand, index in zip(others, available):
             self.setHand(index, hand)
