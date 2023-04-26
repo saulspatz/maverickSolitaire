@@ -27,7 +27,7 @@ class Hand(list):
         # We consider a straight flush as a straight to get the sorting right
 
         haveFlush = True if len(set([x % 4 for x in self])) == 1 else False
-        if value := self.straight() != BUST:
+        if (value := self.straight()) != BUST:
             return value
         return FLUSH if haveFlush else BUST
 
@@ -150,9 +150,6 @@ class Model(object):
         available = [i for i in range(6) if not self.hands[i]]
         for hand, index in zip(others, available):
             self.setHand(index, hand)
-
-        
-        
 
     def patHands(self):
         return [k for k in range(6) if self.hands[k].isPat()]
